@@ -1,0 +1,8 @@
+{
+  "evidence": {
+    "asm": "Fast-path unique strings were unavailable. Exhausting the prioritized decompiled path showed only unrelated ECDH/serialization/memcmp/copy routines and a crypto stream/GCM-style routine using ordinary function pointers and compiler SSE intrinsics; no non-empty OPENSSL_cpuid_setup behavior, no OPENSSL_ia32cap parsing/CPUID helper, and no BN asm fast paths such as bn_div_3_words or gather5/scatter5 Montgomery helpers were observed."
+  },
+  "features": {
+    "asm": "off"
+  }
+}

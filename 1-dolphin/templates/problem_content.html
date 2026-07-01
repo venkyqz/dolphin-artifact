@@ -1,0 +1,83 @@
+<h1>{{ file_name }}</h1>
+<div class="mb-4">
+    <button class="btn btn-secondary me-2" onclick="showMainView()">Back to List</button>
+    <button class="btn btn-primary" onclick="showTrajectoryView('{{ file_name + '.traj' }}')">See Trajectory</button>
+</div>
+
+<div class="mb-4">
+    <h3>Problem Information</h3>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Repository:</strong> {{ problem.repo }}</li>
+        <li class="list-group-item"><strong>Instance ID:</strong> {{ problem.instance_id }}</li>
+        <li class="list-group-item"><strong>Base Commit:</strong> {{ problem.base_commit }}</li>
+        <li class="list-group-item"><strong>Environment Setup Commit:</strong> {{ problem.environment_setup_commit }}</li>
+        <li class="list-group-item"><strong>Version:</strong> {{ problem.version }}</li>
+        <li class="list-group-item"><strong>Created At:</strong> {{ problem.created_at }}</li>
+    </ul>
+</div>
+
+<div class="mb-4">
+    <h3>Problem Statement</h3>
+    <div class="card">
+        <div class="card-body markdown-content">
+            {{ problem.problem_statement }}
+        </div>
+    </div>
+</div>
+
+{% if problem.hints_text %}
+<div class="mb-4">
+    <h3>Hints</h3>
+    <div class="card">
+        <div class="card-body markdown-content">
+            {{ problem.hints_text }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="mb-4">
+    <h3>Test Cases</h3>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Fail to Pass Tests</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for test in problem.FAIL_TO_PASS %}
+                <li class="list-group-item">{{ test }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h5>Pass to Pass Tests</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for test in problem.PASS_TO_PASS %}
+                <li class="list-group-item">{{ test }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h3>Patch</h3>
+    <div class="card">
+        <div class="card-body">
+            <pre><code>{{ problem.patch }}</code></pre>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h3>Test Patch</h3>
+    <div class="card">
+        <div class="card-body">
+            <pre><code>{{ problem.test_patch }}</code></pre>
+        </div>
+    </div>
+</div>

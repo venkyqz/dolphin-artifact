@@ -1,0 +1,176 @@
+<div class="d-flex">
+    <div class="main-content">
+        <h1>{{ file_name }}</h1>
+        <div class="mb-4">
+            <button
+                class="btn btn-secondary me-2"
+                onclick="showMainView()"
+            >Back to List</button>
+            <button
+                class="btn btn-primary"
+                onclick="showProblemView('{{ file_name | replace('.traj', '') }}')"
+            >See Problem</button>
+        </div>
+
+        <div class="mb-4">
+            <h3>Model Stats</h3>
+            {% if trajectory.info %}
+            <ul class="list-group">
+                <li class="list-group-item">Total Cost: {{ trajectory.info.model_stats.total_cost }}</li>
+                <li class="list-group-item">Instance Cost: {{ trajectory.info.model_stats.instance_cost }}</li>
+                <li class="list-group-item">Tokens Sent: {{ trajectory.info.model_stats.tokens_sent }}</li>
+                <li class="list-group-item">Tokens Received: {{ trajectory.info.model_stats.tokens_received }}</li>
+                <li class="list-group-item">API Calls: {{ trajectory.info.model_stats.api_calls }}</li>
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <h3>Environment</h3>
+            {% if trajectory.environment %}
+            <pre>{{ trajectory.environment }}</pre>
+            {% endif %}
+        </div>
+
+        <style>
+            .dashed {
+                border-top: 1px dashed #999;
+                margin: 15px 0;
+            }
+
+            .sidebar {
+                position: fixed;
+                right: 20px;
+                top: 100px;
+                width: 250px;
+                max-height: 80vh;
+                overflow-y: auto;
+                background: white;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar-link {
+                display: block;
+                padding: 5px 10px;
+                margin: 5px 0;
+                color: #333;
+                text-decoration: none;
+                border-radius: 3px;
+            }
+
+            .sidebar-link:hover {
+                background: #f0f0f0;
+            }
+
+            .main-content {
+                margin-right: 280px;
+            }
+        </style>
+
+        <div class="mb-4">
+            <h3>Trajectory Steps</h3>
+            {% for item in trajectory.messages %}
+            <div
+                id="message-{{ loop.index }}"
+                class="card mb-3"
+            >
+                <div class="card-body">
+                    <h5 class="card-title">Message-{{ loop.index }} Role: {{ item.role }}</h5>
+
+                    {% if item.content is string %}
+                    <div class="mb-2">
+                        <strong>Content:</strong>
+                        <div class="markdown-content">{{ item.content }}</div>
+                    </div>
+                    {% else %}
+                    {% for content in item.content %}
+                    <div class="mb-2">
+                        <strong>Content:</strong>
+                        {% if content.type == 'text' %}
+                        <div class="markdown-content">{{ content.text }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if item.tool_calls %}
+                    <div class="mb-2">
+                        <strong>Tool Calls:</strong>
+                        {% for tool_call in item.tool_calls %}
+                        <div class="tool-call">
+                            <p class="markdown-content">Function: {{ tool_call.function.name }}</p>
+                            <p class="markdown-content">Arguments: {{ tool_call.function.arguments }}</p>
+                            <p class="markdown-content">ID: {{ tool_call.id }}</p>
+                            <p class="markdown-content">Type: {{ tool_call.type }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for item in trajectory.trajectory %}
+            <div
+                id="step-{{ loop.index }}"
+                class="card mb-3"
+            >
+                <div class="card-body">
+                    <h5 class="card-title">Step {{ loop.index }} - Action: {{ item.action[:70] + '...' if
+                        item.action|length > 70 else item.action }}</h5>
+                    <hr class="dashed">
+                    <div class="mb-2">
+                        <strong>Thought:</strong>
+                        <div class="markdown-content">{{ item.thought }}</div>
+                    </div>
+                    <hr class="dashed">
+                    <div class="mb-2">
+                        <strong>Response:</strong>
+                        <div class="markdown-content">{{ item.response }}</div>
+                    </div>
+                    <hr class="dashed">
+                    <div class="mb-2">
+                        <strong>Observation:</strong>
+                        <div class="markdown-content">{{ item.observation }}</div>
+                    </div>
+                    <hr class="dashed">
+                    <div>
+                        <strong>State:</strong>
+                        <pre>{{ item.state }}</pre>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h4>Navigation</h4>
+        <div class="messages-nav">
+            <h5>Messages</h5>
+            {% for item in trajectory.messages %}
+            <a
+                href="#message-{{ loop.index }}"
+                class="sidebar-link"
+            >
+                Message {{ loop.index }} - {{ item.role }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="trajectory-nav mt-3">
+            <h5>Trajectory Steps</h5>
+            {% for item in trajectory.trajectory %}
+            <a
+                href="#step-{{ loop.index }}"
+                class="sidebar-link"
+            >
+                Step {{ loop.index }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

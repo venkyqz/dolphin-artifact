@@ -1,0 +1,24 @@
+tools:
+  update_global:
+    signature: "update_global <update_type> <global_name> [<new_name>] [<new_type>]"
+    docstring: >
+      A tool for analyzing and updating code properties inside LLVM bitcode files.
+      You can change the properties of a global variable, such as its type, value.
+
+    arguments:
+      - name: update_type
+        type: string
+        description: "The type of update to perform on the global variable: name, type"
+        required: true
+      - name: global_name
+        type: string
+        description: "The name of the global variable to update"
+        required: true
+      - name: new_name
+        type: string
+        description: "The new name for the global variable (if updating name)"
+        required: false
+      - name: new_type
+        type: string
+        description: "The path to new type definition file (written in C source code) to update global variable's type"
+        required: false

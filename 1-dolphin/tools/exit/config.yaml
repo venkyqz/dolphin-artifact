@@ -1,0 +1,5 @@
+tools:
+  exit:
+    signature: "exit"
+    docstring: "Call this tool if the current task has been finished."
+    arguments: []

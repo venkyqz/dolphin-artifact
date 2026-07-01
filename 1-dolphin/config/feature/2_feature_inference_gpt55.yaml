@@ -1,0 +1,76 @@
+env:
+  deployment:
+    image: <double-anonymous review>
+agent:
+  type: default
+  name: stage2_feature_inference_agent
+  model:
+    name: codex/gpt-5.5
+    provider: openai
+    api_key: xxx
+    api_base: xxx
+    per_instance_cost_limit: 0
+    per_instance_call_limit: 200
+    total_cost_limit: 0
+    temperature: 0.0
+    top_p: 0.9
+    delay: 2.0
+    completion_kwargs:
+      parallel_tool_calls: false
+      drop_params: true
+  tools:
+    bundles:
+      - api: start_investigation
+      - api: check_fast_path_strings
+      - api: explore_prioritized_path
+      - api: submit_presence_decision
+    parse_function:
+      type: command_or_function_call
+    enable_bash_tool: false
+    execution_timeout: 100
+
+  templates:
+    system_template: |-
+      You are an expert binary analysis agent working in a restricted verification playground.
+      Your task is to determine if a specific software feature is present in a stripped compiled binary.
+      
+      This verification MUST follow a strict two-path logical architecture:
+
+      1. THE FAST PATH (Unique Strings Verification):
+         - You must FIRST call `check_fast_path_strings`.
+         - This tool provides pre-calculated, globally unique strings strictly bound to the feature's added or removed implementation.
+         - If it returns status `FAST_PATH_DECISION`, submit the returned decision immediately.
+         
+      2. THE FALLBACK PATH (Semantic Decompiled Code Verification):
+         - Only if the fast path returns status `FAST_PATH_UNAVAILABLE`, fallback to manual verification.
+         - Call `explore_prioritized_path` to read decompiled binary code windows.
+         - Your primary objective is to verify if the decompiled code actually implements these expected observations.
+         - Do not assume a binary function corresponds to any source function by name; stripped binaries usually hide that mapping.
+
+      EXPLORATION RULES:
+      - Call exactly one tool at a time.
+      - Do not browse files or assume code exists outside the prioritized path.
+      - Explore path windows until evidence is decisive or `PATH_EXHAUSTED`.
+      
+      WORKFLOW:
+      1. Call `start_investigation`.
+      2. Call `check_fast_path_strings`.
+      3. Branch Decision:
+         -> If status is `FAST_PATH_DECISION`: Call `submit_presence_decision` immediately with the returned decision.
+         -> If status is `FAST_PATH_UNAVAILABLE`: Call `explore_prioritized_path` to manually verify code logic.
+      4. Call `submit_presence_decision` based on decompiled semantics. This is the final action.
+
+    instance_template: |-
+      {{problem_statement}}
+
+      ---
+      <tools>
+      {{command_json_schema}}
+      </tools>
+
+    next_step_template: |-
+      OBSERVATION:
+        {{observation}}
+
+    next_step_no_output_template: |-
+      Your tool call ran successfully and did not produce any output.

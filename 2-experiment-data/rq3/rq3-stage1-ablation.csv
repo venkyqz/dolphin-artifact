@@ -1,0 +1,7 @@
+semantics_source,model,added_functions,modified_functions,removed_functions,added_shrink_rate,modified_shrink_rate,debug_stage2_f1,model_stage2_f1,relative_f1_gain
+Debug-Diffing,gt,1514,20710,42,,,,,
+GLM-Stage-1,glm-5.1,1186,242,70,0.216645,0.988315,0.708972,0.847328,0.195150
+DS-Stage-1,deepseek-v4-pro,810,232,70,0.464993,0.988798,0.674817,0.885177,0.311729
+MM-Stage-1,minimax-m3,836,240,12,0.447820,0.988411,0.668246,0.862136,0.290148
+GPT-Stage-1,gpt-5.5,1148,215,76,0.241744,0.989619,0.725581,0.927235,0.277921
+Average,average,995,232,57,0.342801,0.988786,0.694404,0.880469,0.268737

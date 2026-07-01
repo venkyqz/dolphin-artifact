@@ -1,0 +1,7 @@
+{
+    "61e37e": {
+        "model_name_or_path": "openssl-1.0.1g__asm__stripped__on__gcc__O2__x86-0001-00cedd23cae5__ref__openssl-1.0.1g__version_same",
+        "instance_id": "61e37e",
+        "model_patch": ""
+    }
+}

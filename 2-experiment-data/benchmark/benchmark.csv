@@ -1,0 +1,61 @@
+Project,Feature,Version,ON Flag,OFF Flag,Semantic Description,Target Binary,Associated CVE,Added Functions,Modified Functions,Deleted Functions,Impacted Files,#File,KLOC
+busybox,CONFIG_ASH,1.33.1,CONFIG_ASH=y,CONFIG_ASH=n,Compiles the ash shell applet and its shell parsing logic.,busybox,"CVE-2021-42375 — BusyBox ash; old affected, new fixed.",377,11,0,22,674,179.006
+busybox,CONFIG_HUSH,1.33.1,CONFIG_HUSH=y,CONFIG_HUSH=n,Compiles the hush shell applet and its parser/runtime logic.,busybox,"CVE-2021-42377 — BusyBox hush; old affected, new fixed.",272,11,0,24,674,179.006
+busybox,CONFIG_ASH,1.34.1,CONFIG_ASH=y,CONFIG_ASH=n,Compiles the ash shell applet and its shell parsing logic.,busybox,"CVE-2021-42375 — BusyBox ash; old affected, new fixed.",379,12,0,22,677,180.852
+busybox,CONFIG_HUSH,1.34.1,CONFIG_HUSH=y,CONFIG_HUSH=n,Compiles the hush shell applet and its parser/runtime logic.,busybox,"CVE-2021-42377 — BusyBox hush; old affected, new fixed.",274,12,0,24,677,180.852
+curl,dict,7.73.0,--enable-dict,--disable-dict,Enables DICT protocol support.,curl,None,3,414,0,85,515,140.587
+curl,telnet,7.73.0,--enable-telnet,--disable-telnet,Enables TELNET protocol support.,curl,None,18,844,0,112,515,140.587
+curl,dict,7.74.0,--enable-dict,--disable-dict,Enables DICT protocol support.,curl,None,3,676,0,100,519,141.304
+curl,telnet,7.74.0,--enable-telnet,--disable-telnet,Enables TELNET protocol support.,curl,None,18,858,0,113,519,141.304
+dnsmasq,HAVE_LOOP,2.82,<default/on> or COPTS=-DHAVE_LOOP,COPTS=-DNO_LOOP,Enables loop detection for repeated forwarding/routing packets.,dnsmasq,None,3,311,0,31,42,29.166
+dnsmasq,HAVE_TFTP,2.82,<default/on> or COPTS=-DHAVE_TFTP,COPTS=-DNO_TFTP,Enables the built-in TFTP server request parsing and file-transfer logic.,dnsmasq,None,12,370,0,31,42,29.166
+dnsmasq,HAVE_LOOP,2.83,<default/on> or COPTS=-DHAVE_LOOP,COPTS=-DNO_LOOP,Enables loop detection for repeated forwarding/routing packets.,dnsmasq,None,3,317,0,32,43,29.513
+dnsmasq,HAVE_TFTP,2.83,<default/on> or COPTS=-DHAVE_TFTP,COPTS=-DNO_TFTP,Enables the built-in TFTP server request parsing and file-transfer logic.,dnsmasq,None,12,375,0,32,43,29.513
+dropbear,FORWARD_TUNNEL,2015.71,ENABLE_SVR_LOCALTCPFWD=y ENABLE_SVR_REMOTETCPFWD=y,ENABLE_SVR_LOCALTCPFWD=n ENABLE_SVR_REMOTETCPFWD=n,Enables server-side local/remote TCP forwarding channel support.,dropbear,None,4,372,0,119,519,65.755
+dropbear,X11FWD,2015.71,ENABLE_X11FWD=y,ENABLE_X11FWD=n,Enables X11 forwarding setup and xauth-related handling.,dropbear,"CVE-2016-3116 — X11 forwarding / xauth CRLF injection, fixed in 2016.72.",7,484,0,127,519,65.755
+dropbear,FORWARD_TUNNEL,2016.72,ENABLE_SVR_LOCALTCPFWD=y ENABLE_SVR_REMOTETCPFWD=y,ENABLE_SVR_LOCALTCPFWD=n ENABLE_SVR_REMOTETCPFWD=n,Enables server-side local/remote TCP forwarding channel support.,dropbear,None,4,444,0,123,519,65.773
+dropbear,X11FWD,2016.72,ENABLE_X11FWD=y,ENABLE_X11FWD=n,Enables X11 forwarding setup and xauth-related handling.,dropbear,"CVE-2016-3116 — X11 forwarding / xauth CRLF injection, fixed in 2016.72.",8,484,0,127,519,65.773
+htslib,bz2,1.10.2,<default/on>,--disable-bz2,Enables optional bzip2 codec support for compressed genomics formats.,htsfile,None,0,739,0,44,74,46.785
+htslib,libcurl,1.10.2,--enable-libcurl,--disable-libcurl,Enables libcurl-backed remote protocol support for genomics files.,htsfile,None,68,862,0,48,74,46.785
+htslib,bz2,1.11,<default/on>,--disable-bz2,Enables optional bzip2 codec support for compressed genomics formats.,htsfile,None,0,739,0,44,75,46.848
+htslib,libcurl,1.11,--enable-libcurl,--disable-libcurl,Enables libcurl-backed remote protocol support for genomics files.,htsfile,None,68,862,0,48,75,46.848
+libjpeg-turbo,arith_enc,2.1.4,-DWITH_ARITH_ENC=ON,-DWITH_ARITH_ENC=OFF,Includes JPEG arithmetic entropy encoding support in the encoder.,cjpeg-static,None,9,137,0,29,145,48.108
+libjpeg-turbo,simd,2.1.4,-DWITH_SIMD=ON,-DWITH_SIMD=OFF,Includes architecture-specific SIMD accelerated JPEG compression paths.,cjpeg-static,None,39,111,3,30,145,48.108
+libjpeg-turbo,arith_enc,2.1.5,-DWITH_ARITH_ENC=ON,-DWITH_ARITH_ENC=OFF,Includes JPEG arithmetic entropy encoding support in the encoder.,cjpeg-static,None,9,137,0,29,145,48.126
+libjpeg-turbo,simd,2.1.5,-DWITH_SIMD=ON,-DWITH_SIMD=OFF,Includes architecture-specific SIMD accelerated JPEG compression paths.,cjpeg-static,None,39,111,3,30,145,48.126
+libtiff,defer-strile-load,4.1.0,--enable-defer-strile-load,--disable-defer-strile-load,Defers loading strip/tile offset metadata until image access requires it.,tiffinfo,None,0,481,0,39,117,71.002
+libtiff,strip-chopping,4.1.0,<default/on>,--disable-strip-chopping,Slices large uncompressed strips into smaller virtual strips during reads.,tiffinfo,None,0,481,0,39,117,71.002
+libtiff,defer-strile-load,4.2.0,--enable-defer-strile-load,--disable-defer-strile-load,Defers loading strip/tile offset metadata until image access requires it.,tiffinfo,None,0,481,0,39,107,68.181
+libtiff,strip-chopping,4.2.0,<default/on>,--disable-strip-chopping,Slices large uncompressed strips into smaller virtual strips during reads.,tiffinfo,None,0,481,0,39,107,68.181
+libwebp,near_lossless,1.2.3,<default/on>,--disable-near-lossless,Enables near-lossless encoder preprocessing capability.,cwebp,None,15,468,0,94,157,63.685
+libwebp,threading,1.2.3,--enable-threading,--disable-threading,Enables worker-thread based parallel execution in WebP pipelines.,cwebp,None,2,835,0,111,157,63.685
+libwebp,near_lossless,1.2.4,<default/on>,--disable-near-lossless,Enables near-lossless encoder preprocessing capability.,cwebp,None,15,468,0,94,157,63.674
+libwebp,threading,1.2.4,--enable-threading,--disable-threading,Enables worker-thread based parallel execution in WebP pipelines.,cwebp,None,2,835,0,111,157,63.674
+libxml2,http,2.10.3,--with-http,--without-http,Enables HTTP transport/network support for external XML resource fetching.,xmllint,None,48,1913,0,40,107,200.889
+libxml2,zlib,2.10.3,--with-zlib,--without-zlib,Enables zlib-backed compressed XML file input handling.,xmllint,None,15,1955,0,40,107,200.889
+libxml2,http,2.9.14,--with-http,--without-http,Enables HTTP transport/network support for external XML resource fetching.,xmllint,None,48,1968,0,42,118,217.678
+libxml2,zlib,2.9.14,--with-zlib,--without-zlib,Enables zlib-backed compressed XML file input handling.,xmllint,None,15,2011,0,42,118,217.678
+mbedtls,PKCS1_V21,2.6.0,scripts/config.pl set MBEDTLS_PKCS1_V21,scripts/config.pl unset MBEDTLS_PKCS1_V21,Enables PKCS#1 v2.1 RSAES-OAEP / RSASSA-PSS support.,libmbedcrypto,CVE-2018-0487 — RSASSA-PSS verification buffer overflow fixed in 2.7.0.,7,543,0,45,121,57.463
+mbedtls,SHA256_SMALLER,2.6.0,scripts/config.pl set MBEDTLS_SHA256_SMALLER,scripts/config.pl unset MBEDTLS_SHA256_SMALLER,Enables the smaller SHA-256 implementation with lower ROM footprint and lower performance.,libmbedcrypto,None,0,137,0,38,121,57.463
+mbedtls,PKCS1_V21,2.7.0,scripts/config.pl set MBEDTLS_PKCS1_V21,scripts/config.pl unset MBEDTLS_PKCS1_V21,Enables PKCS#1 v2.1 RSAES-OAEP / RSASSA-PSS support.,libmbedcrypto,CVE-2018-0487 — RSASSA-PSS verification buffer overflow fixed in 2.7.0.,7,559,0,46,122,59.174
+mbedtls,SHA256_SMALLER,2.7.0,scripts/config.pl set MBEDTLS_SHA256_SMALLER,scripts/config.pl unset MBEDTLS_SHA256_SMALLER,Enables the smaller SHA-256 implementation with lower ROM footprint and lower performance.,libmbedcrypto,None,0,137,0,38,122,59.174
+nginx,http_realip,1.18.0,--with-http_realip_module,<default/off>,Parses configured proxy headers to recover the real client IP.,nginx,None,12,918,0,110,205,129.568
+nginx,http_v2,1.18.0,--with-http_v2_module,<default/off>,Adds HTTP/2 frame parsing and stream-state handling support.,nginx,None,157,1020,0,119,205,129.568
+nginx,http_realip,1.19.10,--with-http_realip_module,<default/off>,Parses configured proxy headers to recover the real client IP.,nginx,None,12,929,0,110,207,132.717
+nginx,http_v2,1.19.10,--with-http_v2_module,<default/off>,Adds HTTP/2 frame parsing and stream-state handling support.,nginx,None,159,1031,0,119,207,132.717
+openssl,asm,1.0.1f,<default/on>,no-asm,Uses architecture-specific low-level crypto implementations.,libcrypto,None,38,3590,35,549,915,234.763
+openssl,heartbeats,1.0.1f,<default/on>,no-heartbeats,Enables TLS/DTLS heartbeat message parsing and response logic.,libssl,"CVE-2014-0160 — Heartbleed; OpenSSL 1.0.1 through 1.0.1f, fixed in 1.0.1g.",4,467,0,46,915,234.763
+openssl,asm,1.0.1g,<default/on>,no-asm,Uses architecture-specific low-level crypto implementations.,libcrypto,None,38,3591,35,549,915,234.936
+openssl,heartbeats,1.0.1g,<default/on>,no-heartbeats,Enables TLS/DTLS heartbeat message parsing and response logic.,libssl,"CVE-2014-0160 — Heartbleed; OpenSSL 1.0.1 through 1.0.1f, fixed in 1.0.1g.",4,467,0,46,915,234.936
+pcre2,jit,10.39,--enable-jit,--disable-jit,Enables the PCRE2 just-in-time regex compiler and JIT matching engine.,pcre2test,"CVE-2022-1586, CVE-2022-1587 — JIT-compiled regular expression out-of-bounds reads fixed in 10.40.",238,151,0,34,56,72.604
+pcre2,unicode,10.39,<default/on>,--disable-unicode,Enables Unicode / UTF support and Unicode property matching support.,pcre2test,None,6,138,0,26,56,72.604
+pcre2,jit,10.40,--enable-jit,--disable-jit,Enables the PCRE2 just-in-time regex compiler and JIT matching engine.,pcre2test,"CVE-2022-1586, CVE-2022-1587 — JIT-compiled regular expression out-of-bounds reads fixed in 10.40.",241,153,0,34,57,76.430
+pcre2,unicode,10.40,<default/on>,--disable-unicode,Enables Unicode / UTF support and Unicode property matching support.,pcre2test,None,7,139,0,26,57,76.430
+uclibc-ng,HAS_IPV6,1.0.40,UCLIBC_HAS_IPV6=y,UCLIBC_HAS_IPV6=n,"Compiles IPv6 socket address handling, name resolution paths, and IPv6 network constants.",libc.so,None,3,716,0,397,2058,125.599
+uclibc-ng,HAS_REGEX,1.0.40,UCLIBC_HAS_REGEX=y,UCLIBC_HAS_REGEX=n,Compiles native libc regex matching APIs.,libc.so,None,144,737,0,422,2058,125.599
+uclibc-ng,HAS_IPV6,1.0.41,UCLIBC_HAS_IPV6=y,UCLIBC_HAS_IPV6=n,"Compiles IPv6 socket address handling, name resolution paths, and IPv6 network constants.",libc.so,None,3,721,0,397,2058,125.720
+uclibc-ng,HAS_REGEX,1.0.41,UCLIBC_HAS_REGEX=y,UCLIBC_HAS_REGEX=n,Compiles native libc regex matching APIs.,libc.so,None,144,742,0,422,2058,125.720
+wget,digest,1.20.3,<default/on>,--disable-digest,Enables HTTP Digest authentication parsing and state tracking.,wget,None,2,668,0,51,251,72.028
+wget,ipv6,1.20.3,--enable-ipv6,--disable-ipv6,Enables native IPv6 resolution and socket paths.,wget,None,11,739,4,54,251,72.028
+wget,digest,1.21.4,<default/on>,--disable-digest,Enables HTTP Digest authentication parsing and state tracking.,wget,None,2,677,0,67,327,81.184
+wget,ipv6,1.21.4,--enable-ipv6,--disable-ipv6,Enables native IPv6 resolution and socket paths.,wget,None,11,743,4,70,327,81.184

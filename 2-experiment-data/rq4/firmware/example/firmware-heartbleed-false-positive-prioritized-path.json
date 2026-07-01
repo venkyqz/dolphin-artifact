@@ -1,0 +1,304 @@
+{
+  "path_id": "path_1",
+  "path_rank": 1,
+  "verification_mode": "path_presence",
+  "source_path": [
+    {
+      "source_id": "source::ssl__d1_srvr.c:dtls1_accept.c::dtls1_accept",
+      "function_name": "dtls1_accept",
+      "role": "ordinary_context",
+      "line_count": 699
+    },
+    {
+      "source_id": "source::ssl__s3_clnt.c:ssl3_connect.c::ssl3_connect",
+      "function_name": "ssl3_connect",
+      "role": "ordinary_context",
+      "line_count": 457
+    },
+    {
+      "source_id": "source::ssl__d1_clnt.c:dtls1_connect.c::dtls1_connect",
+      "function_name": "dtls1_connect",
+      "role": "ordinary_context",
+      "line_count": 633
+    },
+    {
+      "source_id": "source::ssl__s3_srvr.c:ssl3_accept.c::ssl3_accept",
+      "function_name": "ssl3_accept",
+      "role": "ordinary_context",
+      "line_count": 626
+    },
+    {
+      "source_id": "source::ssl__t1_lib.c:ssl_parse_clienthello_tlsext.c::ssl_parse_clienthello_tlsext",
+      "function_name": "ssl_parse_clienthello_tlsext",
+      "role": "ordinary_context",
+      "line_count": 501
+    },
+    {
+      "source_id": "source::ssl__d1_both.c:dtls1_retransmit_buffered_messages.c::dtls1_retransmit_buffered_messages",
+      "function_name": "dtls1_retransmit_buffered_messages",
+      "role": "ordinary_context",
+      "line_count": 25
+    },
+    {
+      "source_id": "source::ssl__d1_lib.c:dtls1_handle_timeout.c::dtls1_handle_timeout",
+      "function_name": "dtls1_handle_timeout",
+      "role": "ordinary_context",
+      "line_count": 30
+    },
+    {
+      "source_id": "source::ssl__s3_pkt.c:ssl3_read_bytes.c::ssl3_read_bytes",
+      "function_name": "ssl3_read_bytes",
+      "role": "ordinary_context",
+      "line_count": 479
+    },
+    {
+      "source_id": "source::ssl__t1_lib.c:ssl_add_serverhello_tlsext.c::ssl_add_serverhello_tlsext",
+      "function_name": "ssl_add_serverhello_tlsext",
+      "role": "ordinary_context",
+      "line_count": 188
+    }
+  ],
+  "fast_path_evidence": {
+    "on_strings": [],
+    "off_strings": []
+  },
+  "binary_path": [
+    {
+      "binary_id": "binary::dtls1_accept",
+      "binary_name": "dtls1_accept",
+      "address": "23320",
+      "path_index": 0,
+      "path_role": "key_anchor",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__d1_srvr.c:dtls1_accept.c::dtls1_accept",
+          "source_function": "dtls1_accept",
+          "binary_id": "binary::dtls1_accept",
+          "binary_name": "dtls1_accept",
+          "path_role": "key_core"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl3_connect",
+      "binary_name": "ssl3_connect",
+      "address": "17A90",
+      "path_index": 1,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__s3_clnt.c:ssl3_connect.c::ssl3_connect",
+          "source_function": "ssl3_connect",
+          "binary_id": "binary::ssl3_connect",
+          "binary_name": "ssl3_connect",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::dtls1_connect",
+      "binary_name": "dtls1_connect",
+      "address": "24F74",
+      "path_index": 2,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__d1_clnt.c:dtls1_connect.c::dtls1_connect",
+          "source_function": "dtls1_connect",
+          "binary_id": "binary::dtls1_connect",
+          "binary_name": "dtls1_connect",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl3_accept",
+      "binary_name": "ssl3_accept",
+      "address": "138B8",
+      "path_index": 3,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__s3_srvr.c:ssl3_accept.c::ssl3_accept",
+          "source_function": "ssl3_accept",
+          "binary_id": "binary::ssl3_accept",
+          "binary_name": "ssl3_accept",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl_parse_clienthello_tlsext",
+      "binary_name": "ssl_parse_clienthello_tlsext",
+      "address": "1FA38",
+      "path_index": 4,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__t1_lib.c:ssl_parse_clienthello_tlsext.c::ssl_parse_clienthello_tlsext",
+          "source_function": "ssl_parse_clienthello_tlsext",
+          "binary_id": "binary::ssl_parse_clienthello_tlsext",
+          "binary_name": "ssl_parse_clienthello_tlsext",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::dtls1_retransmit_buffered_messages",
+      "binary_name": "dtls1_retransmit_buffered_messages",
+      "address": "28AB0",
+      "path_index": 5,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__d1_both.c:dtls1_retransmit_buffered_messages.c::dtls1_retransmit_buffered_messages",
+          "source_function": "dtls1_retransmit_buffered_messages",
+          "binary_id": "binary::dtls1_retransmit_buffered_messages",
+          "binary_name": "dtls1_retransmit_buffered_messages",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::dtls1_handle_timeout",
+      "binary_name": "dtls1_handle_timeout",
+      "address": "25F34",
+      "path_index": 6,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__d1_lib.c:dtls1_handle_timeout.c::dtls1_handle_timeout",
+          "source_function": "dtls1_handle_timeout",
+          "binary_id": "binary::dtls1_handle_timeout",
+          "binary_name": "dtls1_handle_timeout",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl3_read_bytes",
+      "binary_name": "ssl3_read_bytes",
+      "address": "1B568",
+      "path_index": 7,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__s3_pkt.c:ssl3_read_bytes.c::ssl3_read_bytes",
+          "source_function": "ssl3_read_bytes",
+          "binary_id": "binary::ssl3_read_bytes",
+          "binary_name": "ssl3_read_bytes",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl_add_serverhello_tlsext",
+      "binary_name": "ssl_add_serverhello_tlsext",
+      "address": "1F6D0",
+      "path_index": 8,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__t1_lib.c:ssl_add_serverhello_tlsext.c::ssl_add_serverhello_tlsext",
+          "source_function": "ssl_add_serverhello_tlsext",
+          "binary_id": "binary::ssl_add_serverhello_tlsext",
+          "binary_name": "ssl_add_serverhello_tlsext",
+          "path_role": "one_hop_context"
+        }
+      ]
+    },
+    {
+      "binary_id": "binary::ssl_parse_serverhello_tlsext",
+      "binary_name": "ssl_parse_serverhello_tlsext",
+      "address": "200F0",
+      "path_index": 9,
+      "path_role": "context",
+      "aligned_source_nodes": [
+        {
+          "source_id": "source::ssl__t1_lib.c:ssl_parse_serverhello_tlsext.c::ssl_parse_serverhello_tlsext",
+          "source_function": "ssl_parse_serverhello_tlsext",
+          "binary_id": "binary::ssl_parse_serverhello_tlsext",
+          "binary_name": "ssl_parse_serverhello_tlsext",
+          "path_role": "one_hop_context"
+        }
+      ]
+    }
+  ],
+  "source_to_binary": [
+    {
+      "source_id": "source::ssl__d1_srvr.c:dtls1_accept.c::dtls1_accept",
+      "source_function": "dtls1_accept",
+      "binary_id": "binary::dtls1_accept",
+      "binary_name": "dtls1_accept",
+      "path_role": "key_core"
+    },
+    {
+      "source_id": "source::ssl__s3_clnt.c:ssl3_connect.c::ssl3_connect",
+      "source_function": "ssl3_connect",
+      "binary_id": "binary::ssl3_connect",
+      "binary_name": "ssl3_connect",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__d1_clnt.c:dtls1_connect.c::dtls1_connect",
+      "source_function": "dtls1_connect",
+      "binary_id": "binary::dtls1_connect",
+      "binary_name": "dtls1_connect",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__s3_srvr.c:ssl3_accept.c::ssl3_accept",
+      "source_function": "ssl3_accept",
+      "binary_id": "binary::ssl3_accept",
+      "binary_name": "ssl3_accept",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__t1_lib.c:ssl_parse_clienthello_tlsext.c::ssl_parse_clienthello_tlsext",
+      "source_function": "ssl_parse_clienthello_tlsext",
+      "binary_id": "binary::ssl_parse_clienthello_tlsext",
+      "binary_name": "ssl_parse_clienthello_tlsext",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__d1_both.c:dtls1_retransmit_buffered_messages.c::dtls1_retransmit_buffered_messages",
+      "source_function": "dtls1_retransmit_buffered_messages",
+      "binary_id": "binary::dtls1_retransmit_buffered_messages",
+      "binary_name": "dtls1_retransmit_buffered_messages",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__d1_lib.c:dtls1_handle_timeout.c::dtls1_handle_timeout",
+      "source_function": "dtls1_handle_timeout",
+      "binary_id": "binary::dtls1_handle_timeout",
+      "binary_name": "dtls1_handle_timeout",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__s3_pkt.c:ssl3_read_bytes.c::ssl3_read_bytes",
+      "source_function": "ssl3_read_bytes",
+      "binary_id": "binary::ssl3_read_bytes",
+      "binary_name": "ssl3_read_bytes",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__t1_lib.c:ssl_add_serverhello_tlsext.c::ssl_add_serverhello_tlsext",
+      "source_function": "ssl_add_serverhello_tlsext",
+      "binary_id": "binary::ssl_add_serverhello_tlsext",
+      "binary_name": "ssl_add_serverhello_tlsext",
+      "path_role": "one_hop_context"
+    },
+    {
+      "source_id": "source::ssl__t1_lib.c:ssl_parse_serverhello_tlsext.c::ssl_parse_serverhello_tlsext",
+      "source_function": "ssl_parse_serverhello_tlsext",
+      "binary_id": "binary::ssl_parse_serverhello_tlsext",
+      "binary_name": "ssl_parse_serverhello_tlsext",
+      "path_role": "one_hop_context"
+    }
+  ],
+  "core_source_id": "source::ssl__d1_srvr.c:dtls1_accept.c::dtls1_accept",
+  "core_binary_id": "binary::dtls1_accept",
+  "core_source_role": "ordinary_context",
+  "score": 10.0,
+  "retrieval_provider": "b2sfinder-anchor-path"
+}

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trajectory & Problem Viewer</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+    <link
+        href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css"
+    >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/diff.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@12/dist/markdown-it.min.js"></script>
+    <style>
+        .title-banner {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .title-banner h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone:hover {
+            background-color: #f8f9fa;
+            border-color: #0d6efd;
+        }
+
+        .drop-zone.dragover {
+            background-color: #e9ecef;
+            border-color: #0d6efd;
+        }
+
+        .content-panel {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        .upload-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .upload-container {
+            flex: 1;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 38px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
+
+        .reviewed-item {
+            background-color: #e8f5e9 !important;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .reviewed-mark {
+            margin-left: 8px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 26px;
+        }
+
+        .select2-results__option {
+            padding: 6px 12px;
+        }
+
+        .carved-text {
+            color: rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9),
+                -1px -1px 1px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    {% if message %}
+    <div
+        class="alert alert-info alert-dismissible fade show"
+        role="alert"
+    >
+        {{ message }}
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+    </div>
+    {% endif %}
+
+    <div class="container mt-4">
+        <div class="title-banner">
+            <h1>Trajectory & Problem Viewer</h1>
+        </div>
+
+        <div class="content-panel">
+            <div class="upload-section mb-4">
+                <div class="upload-container">
+                    <h4>Upload Trajectory</h4>
+                    <div
+                        class="drop-zone"
+                        id="trajDropZone"
+                    >
+                        <i class="bi bi-upload"></i>
+                        <p class="mb-0">Drop trajectory files/folder here or click to upload</p>
+                        <small class="text-muted">Accepts .json, .traj files or directory</small>
+                        <input
+                            type="file"
+                            class="d-none"
+                            id="trajInputFile"
+                            accept=".json,.traj"
+                            multiple
+                        >
+                        <input
+                            type="file"
+                            class="d-none"
+                            id="trajInputDir"
+                            accept=".json,.traj"
+                            webkitdirectory
+                            directory
+                            multiple
+                        >
+                    </div>
+                </div>
+
+                <div class="upload-container">
+                    <h4>Upload Problem</h4>
+                    <div
+                        class="drop-zone"
+                        id="problemDropZone"
+                    >
+                        <i class="bi bi-upload"></i>
+                        <p class="mb-0">Drop problem file here or click to upload</p>
+                        <small class="text-muted">Accepts .json files</small>
+                        <input
+                            type="file"
+                            class="d-none"
+                            id="problemInput"
+                            accept=".json"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h4>Select Trajectory</h4>
+                    <select
+                        class="form-select"
+                        id="trajectorySelect"
+                    >
+                        <option value="">Search and select trajectory...</option>
+                        {% for file_name in trajectories %}
+                        <option value="{{ file_name }}">{{ file_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h4>Select Problem</h4>
+                    <select
+                        class="form-select"
+                        id="problemSelect"
+                    >
+                        <option value="">Search and select problem...</option>
+                        {% for file_name in problems %}
+                        <option value="{{ file_name }}">{{ file_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="viewContainer"
+            class="container mt-4"
+            style="display: none;"
+        >
+            <div
+                id="trajectoryView"
+                style="display: none;"
+            ></div>
+            <div
+                id="problemView"
+                style="display: none;"
+            ></div>
+        </div>
+
+        <div class="container text-center mt-4 mb-4">
+            <small class="carved-text">Copyright by OpOz(1.01) technology limited, 2025</small>
+        </div>
+    </div>
+    <div
+        class="modal fade"
+        id="uploadCompleteModal"
+        tabindex="-1"
+        aria-labelledby="uploadCompleteModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5
+                        class="modal-title"
+                        id="uploadCompleteModalLabel"
+                    >Upload Complete</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <p id="uploadCompleteMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                    >OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function markAsReviewed(selectId, itemId) {
+            const select = $(`#${selectId}`);
+            const option = select.find(`option[value="${itemId}"]`);
+
+            if (!option.text().includes('✓')) {
+                option.text(option.text() + ' ✓');
+            }
+
+            // 强制更新 Select2 显示
+            select.trigger('change');
+
+            // 重新初始化 Select2
+            select.select2('destroy').select2({
+                placeholder: 'Search and select...',
+                allowClear: true,
+                closeOnSelect: true,
+                templateResult: formatOption,
+                templateSelection: formatOption
+            });
+
+            // 存储查看状态
+            const reviewedItems = JSON.parse(localStorage.getItem('reviewedItems') || '{}');
+            reviewedItems[selectId] = reviewedItems[selectId] || {};
+            reviewedItems[selectId][itemId] = true;
+            localStorage.setItem('reviewedItems', JSON.stringify(reviewedItems));
+        }
+
+        async function showTrajectoryView(trajectoryId) {
+            try {
+                const response = await fetch(`/trajectory/${trajectoryId}`);
+                if (response.status == 204) {
+                    alert("Cannot open " + trajectoryId + "!");
+                    return;
+                }
+                const html = await response.text();
+
+                document.querySelector('.content-panel').style.display = 'none';
+                document.getElementById('viewContainer').style.display = 'block';
+                document.getElementById('trajectoryView').style.display = 'block';
+                document.getElementById('problemView').style.display = 'none';
+
+                document.getElementById('trajectoryView').innerHTML = html;
+
+                renderHighlight();
+                renderMarkdown();
+                markAsReviewed('trajectorySelect', trajectoryId);
+            } catch (error) {
+                console.error('Error loading trajectory:', error);
+            }
+        }
+
+        async function showProblemView(problemId) {
+            try {
+                const response = await fetch(`/problem/${problemId}`);
+                if (response.status == 204) {
+                    alert("Cannot open " + problemId + "!");
+                    return;
+                }
+                const html = await response.text();
+
+                document.querySelector('.content-panel').style.display = 'none';
+                document.getElementById('viewContainer').style.display = 'block';
+                document.getElementById('trajectoryView').style.display = 'none';
+                document.getElementById('problemView').style.display = 'block';
+
+                document.getElementById('problemView').innerHTML = html;
+
+                renderHighlight();
+                renderMarkdown();
+                markAsReviewed('problemSelect', problemId);
+            } catch (error) {
+                console.error('Error loading problem:', error);
+            }
+        }
+
+        function formatOption(option) {
+            if (!option.id) {
+                return option.text;
+            }
+
+            const isReviewed = option.text.includes('✓');
+            const content = $('<div>').css({
+                'display': 'flex',
+                'justify-content': 'space-between',
+                'align-items': 'center',
+                'width': '100%'
+            });
+
+            if (isReviewed) {
+                const textSpan = $('<span>').text(option.text.replace(' ✓', ''));
+                const checkmark = $('<span>')
+                    .addClass('reviewed-mark')
+                    .html('✓')
+                //.css('color', '#2e7d32');
+
+                content.addClass('reviewed-item')
+                    .append(textSpan)
+                    .append(checkmark);
+            } else {
+                content.text(option.text);
+            }
+
+            return content;
+        }
+
+        $(document).ready(function () {
+            // Restore reviewed status
+            const reviewedItems = JSON.parse(localStorage.getItem('reviewedItems') || '{}');
+
+            // Apply reviewed status to options
+            for (const selectId in reviewedItems) {
+                for (const itemId in reviewedItems[selectId]) {
+                    if (reviewedItems[selectId][itemId]) {
+                        const select = $(`#${selectId}`);
+                        const option = select.find(`option[value="${itemId}"]`);
+                        if (!option.text().includes('✓')) {
+                            option.text(option.text() + ' ✓');
+                        }
+                    }
+                }
+            }
+
+            // Initialize Select2
+            $('#trajectorySelect, #problemSelect').select2({
+                placeholder: 'Search and select...',
+                allowClear: true,
+                closeOnSelect: true,
+                templateResult: formatOption,
+                templateSelection: formatOption
+            });
+
+            // Handle document clicks for Select2 dropdowns
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.select2-container').length) {
+                    $('#trajectorySelect').select2('close');
+                    $('#problemSelect').select2('close');
+                }
+            });
+        });
+
+        function setupDropZone(dropZoneId, inputIds, uploadUrl) {
+            const dropZone = document.getElementById(dropZoneId);
+            const inputFile = document.getElementById(inputIds.file);
+            const inputDir = inputIds.directory ? document.getElementById(inputIds.directory) : null;
+            let uploadedFileCount = 0;
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    dropZone.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    dropZone.classList.remove('dragover');
+                });
+            });
+
+            dropZone.addEventListener('click', (e) => {
+                // Check if click target is the drop zone itself to prevent duplicate triggers
+                if (e.target === dropZone) {
+                    if (inputIds.directory) {
+                        const modal = document.createElement('div');
+                        modal.className = 'modal fade';
+                        modal.innerHTML = `
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Upload Options</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>How would you like to upload files?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="uploadDirBtn">Upload Directory</button>
+                                        <button type="button" class="btn btn-secondary" id="uploadFilesBtn">Upload Files</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        document.body.appendChild(modal);
+
+                        const bsModal = new bootstrap.Modal(modal);
+                        bsModal.show();
+
+                        modal.querySelector('#uploadDirBtn').onclick = () => {
+                            bsModal.hide();
+                            inputDir.click();
+                        };
+
+                        modal.querySelector('#uploadFilesBtn').onclick = () => {
+                            bsModal.hide();
+                            inputFile.click();
+                        };
+
+                        modal.addEventListener('hidden.bs.modal', () => {
+                            document.body.removeChild(modal);
+                        });
+                    } else {
+                        inputFile.click();
+                    }
+                }
+            });
+
+            inputFile.addEventListener('change', handleFiles);
+            if (inputDir) {
+                inputDir.addEventListener('change', handleFiles);
+            }
+
+            dropZone.addEventListener('drop', (e) => {
+                const items = e.dataTransfer.items;
+                if (items && items.length > 0) {
+                    handleDataTransferItems(items);
+                }
+            });
+
+            async function handleDataTransferItems(items) {
+                uploadedFileCount = 0;
+                for (let item of items) {
+                    if (item.kind === 'file') {
+                        const entry = item.webkitGetAsEntry();
+                        if (entry.isDirectory) {
+                            await processDirectory(entry);
+                        } else {
+                            const file = item.getAsFile();
+                            await uploadFile(file);
+                        }
+                    }
+                }
+                showUploadCompleteAlert(uploadedFileCount);
+            }
+
+            async function processDirectory(dirEntry) {
+                const dirReader = dirEntry.createReader();
+                await new Promise((resolve) => {
+                    dirReader.readEntries(async (entries) => {
+                        for (let entry of entries) {
+                            if (entry.isDirectory) {
+                                await processDirectory(entry);
+                            } else if (entry.isFile) {
+                                entry.file(async (file) => {
+                                    if (file.name.endsWith('.json') || file.name.endsWith('.traj')) {
+                                        await uploadFile(file);
+                                    }
+                                });
+                            }
+                        }
+                        resolve();
+                    });
+                });
+            }
+
+            async function handleFiles(e) {
+                uploadedFileCount = 0;
+                const files = Array.from(e.target.files);
+                for (let file of files) {
+                    if (file.name.endsWith('.json') || file.name.endsWith('.traj')) {
+                        await uploadFile(file);
+                    }
+                }
+                showUploadCompleteAlert(uploadedFileCount);
+            }
+
+            async function uploadFile(file) {
+                const formData = new FormData();
+                const fileName = file.name.split('/').pop();
+                const fileWithoutPath = new File([file], fileName, { type: file.type });
+                formData.append('file', fileWithoutPath);
+
+                try {
+                    const response = await fetch(uploadUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    if (data.status === 'success') {
+                        const select = document.getElementById('trajectorySelect');
+                        const option = new Option(fileName, fileName);
+                        $(select).append(option).trigger('change');
+                        console.log(`Successfully uploaded: ${fileName}`);
+                        uploadedFileCount++;
+                    }
+                } catch (error) {
+                    console.error(`Error uploading ${fileName}:`, error);
+                }
+            }
+
+            function showUploadCompleteAlert(count) {
+                if (count > 0) {
+                    document.getElementById('uploadCompleteMessage').textContent =
+                        `${count} trajectory file${count > 1 ? 's' : ''} ${count > 1 ? 'have' : 'has'} been successfully loaded.`;
+
+                    const modal = new bootstrap.Modal(document.getElementById('uploadCompleteModal'));
+                    modal.show();
+
+                    setTimeout(() => {
+                        modal.hide();
+                    }, 3000);
+                }
+            }
+        }
+
+        setupDropZone('trajDropZone', {
+            file: 'trajInputFile',
+            directory: 'trajInputDir'
+        }, '/upload_trajectory');
+
+        setupDropZone('problemDropZone', {
+            file: 'problemInput',
+            directory: null
+        }, '/upload_problem');
+
+        function showMainView() {
+            document.querySelector('.content-panel').style.display = 'block';
+            document.getElementById('viewContainer').style.display = 'none';
+            document.getElementById('trajectoryView').style.display = 'none';
+            document.getElementById('problemView').style.display = 'none';
+        }
+
+        function renderHighlight() {
+            document.querySelectorAll('pre code').forEach((el) => {
+                hljs.highlightElement(el);
+            });
+        }
+
+        function renderMarkdown() {
+            const md = window.markdownit({
+                breaks: true,
+                linkify: true
+            });
+            document.querySelectorAll('.markdown-content').forEach(element => {
+                element.innerHTML = md.render(element.textContent);
+            });
+        }
+
+        $('#trajectorySelect').on('select2:select', function (e) {
+            showTrajectoryView(e.params.data.id);
+        });
+
+        $('#problemSelect').on('select2:select', function (e) {
+            showProblemView(e.params.data.id);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+main() {
+    cd $ROOT
+
+    # Check if the patch file exists and is non-empty
+    if [ -s "/root/test.patch" ]; then
+        # Apply the patch in reverse
+        git apply -R < "/root/test.patch"
+    fi
+
+    # do not add .bc and .ll file
+    git add -A -- ':!*.bc' ':!*.ll'
+    git diff --cached > /root/model.patch
+    echo "<<SWE_AGENT_SUBMISSION>>"
+    cat /root/model.patch
+    echo "<<SWE_AGENT_SUBMISSION>>"
+}
+
+main "$@"

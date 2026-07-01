@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Path to the Python script (assuming it's in the parent directory)
+PYTHON_SCRIPT="$SCRIPT_DIR/update_global.py"
+
+# Check if the Python script exists
+if [ ! -f "$PYTHON_SCRIPT" ]; then
+    echo "Error: Python script not found at $PYTHON_SCRIPT" >&2
+    exit 1
+fi
+
+# Execute the Python script with all passed arguments
+python3 "$PYTHON_SCRIPT" "$@"

@@ -1,0 +1,8 @@
+{
+  "evidence": {
+    "heartbeats": "Fast path unavailable. Decompiled TLS extension paths do not implement RFC6520 heartbeat: ssl_parse_clienthello_tlsext parses extensions 0, 10, 11, 35, 65281, and 5, but has no extension type 15 heartbeat negotiation; ssl_add_serverhello_tlsext emits renegotiation/SNI/cert-status/session-ticket/other extension bytes but no heartbeat extension. Prioritized path also did not expose heartbeat record processing or send dispatch."
+  },
+  "features": {
+    "heartbeats": "off"
+  }
+}
